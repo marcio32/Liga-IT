@@ -1,0 +1,6 @@
+@Liga_IT_HostAddress = http://localhost:5029
+
+GET {{Liga_IT_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
