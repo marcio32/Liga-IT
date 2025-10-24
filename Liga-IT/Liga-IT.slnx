@@ -2,5 +2,5 @@
   <Project Path="Liga-IT.Application/Liga-IT.Application.csproj" />
   <Project Path="Liga-IT.Domain/Liga-IT.Domain.csproj" />
   <Project Path="Liga-IT.Infrastructure/Liga-IT.Infrastructure.csproj" />
-  <Project Path="Liga-IT/Liga-IT.csproj" />
+  <Project Path="Liga-IT/Liga-IT.API.csproj" />
 </Solution>
