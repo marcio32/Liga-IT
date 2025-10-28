@@ -1,4 +1,7 @@
-﻿using Liga_IT.Infrastructure.Data;
+﻿using Liga_IT.Application.Interfaces;
+using Liga_IT.Infrastructure.Data;
+using Liga_IT.Infrastructure.Identity;
+using Liga_IT.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +17,18 @@ public static class DependecyInjections
         {
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
         });
+
+        services.AddIdentityCore<ApplicationIdentityUser>(options =>
+        {
+            options.Password.RequireDigit = true;
+            options.Password.RequireLowercase = true;
+            options.Password.RequireUppercase = true;
+            options.Password.RequireNonAlphanumeric = false;
+            options.Password.RequiredLength = 6;
+        }).AddEntityFrameworkStores<ApplicationDbContext>();
+
+        //Servicios
+        services.AddScoped<IAuthService, AuthService>();
 
         return services;
     }
