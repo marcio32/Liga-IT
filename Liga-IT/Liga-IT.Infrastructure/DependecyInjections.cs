@@ -2,6 +2,7 @@
 using Liga_IT.Infrastructure.Data;
 using Liga_IT.Infrastructure.Identity;
 using Liga_IT.Infrastructure.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,7 +19,7 @@ public static class DependecyInjections
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
         });
 
-        services.AddIdentityCore<ApplicationIdentityUser>(options =>
+        services.AddIdentity<ApplicationIdentityUser, IdentityRole>(options =>
         {
             options.Password.RequireDigit = true;
             options.Password.RequireLowercase = true;

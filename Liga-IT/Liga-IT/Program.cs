@@ -1,6 +1,8 @@
 using Liga_IT.Infrastructure;
+using Liga_IT.Middlewares;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
 using System.Text;
 
 namespace Liga_IT;
@@ -9,10 +11,20 @@ public class Program
 {
     public static void Main(string[] args)
     {
+
+        Log.Logger = new LoggerConfiguration()
+            .WriteTo.Console()
+            .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day)
+            .CreateLogger();
+
         var builder = WebApplication.CreateBuilder(args);
+        builder.Host.UseSerilog();
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
+        builder.Services.AddSwaggerGen(c =>
+        {
+            c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Liga IT API", Version = "v1" });
+        });
         builder.Services.AddInfrastructure(builder.Configuration);
         builder.Services.AddAuthentication(options =>
         {
@@ -43,6 +55,8 @@ public class Program
 
         app.UseAuthentication();
         app.UseAuthorization();
+
+        app.UseMiddleware<ErrorLoggingMiddleware>();
 
         app.MapControllers();
 

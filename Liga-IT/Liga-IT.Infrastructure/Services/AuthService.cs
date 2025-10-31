@@ -10,8 +10,38 @@ using System.Text;
 
 namespace Liga_IT.Infrastructure.Services;
 
-public class AuthService(UserManager<ApplicationIdentityUser> userManager, IConfiguration configuration) : IAuthService
+public class AuthService(UserManager<ApplicationIdentityUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration) : IAuthService
 {
+
+    public async Task<AuthResponseDto> RegisterAsync(RegisterRequestDto registerRequestDto)
+    {
+        var existingUser = await userManager.FindByEmailAsync(registerRequestDto.Email);
+        if (existingUser != null)
+            throw new InvalidOperationException("El email ya está registrado.");
+
+        var user = new ApplicationIdentityUser
+        {
+            Email = registerRequestDto.Email,
+            UserName = registerRequestDto.Email,
+            FirstName = registerRequestDto.FirstName,
+            LastName = registerRequestDto.LastName
+        };
+
+        var result = await userManager.CreateAsync(user, registerRequestDto.Password);
+        if (!result.Succeeded)
+            throw new InvalidOperationException(string.Join(", ", result.Errors.Select(e => e.Description)));
+
+        var role = await roleManager.FindByIdAsync("1");
+        if (role != null)
+            await userManager.AddToRoleAsync(user, role.Name!);
+
+        var token = await GenerateJwtTokenAsync(user);
+
+        return new AuthResponseDto
+        {
+            Token = token
+        };
+    }
 
     public async Task<AuthResponseDto> LoginAsync(AuthRequestDto authRequestDto)
     {
@@ -50,7 +80,7 @@ public class AuthService(UserManager<ApplicationIdentityUser> userManager, IConf
             issuer: configuration["Jwt:Issuer"],
             audience: configuration["Jwt:Audience"],
             claims: claims,
-            expires: DateTime.UtcNow.AddHours(8),
+            expires: DateTime.UtcNow.AddYears(8),
             signingCredentials: credentials
         );
 
