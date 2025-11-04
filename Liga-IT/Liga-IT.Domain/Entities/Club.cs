@@ -1,4 +1,6 @@
-﻿namespace Liga_IT.Domain.Entities;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Liga_IT.Domain.Entities;
 
 public class Club
 {

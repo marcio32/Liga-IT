@@ -1,6 +1,8 @@
 ﻿using Liga_IT.Application.Interfaces;
+using Liga_IT.Domain.Interfaces;
 using Liga_IT.Infrastructure.Data;
 using Liga_IT.Infrastructure.Identity;
+using Liga_IT.Infrastructure.Repositories;
 using Liga_IT.Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -30,6 +32,7 @@ public static class DependecyInjections
 
         //Servicios
         services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<IClubRepository, ClubRepository>();
 
         return services;
     }

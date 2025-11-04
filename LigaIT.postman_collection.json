@@ -7,77 +7,262 @@
 	},
 	"item": [
 		{
-			"name": "Register",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{LigaIT}}",
-							"type": "string"
+			"name": "Clubs",
+			"item": [
+				{
+					"name": "GetAll",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{LigaIT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7284/api/Club/GetAll",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7284",
+							"path": [
+								"api",
+								"Club",
+								"GetAll"
+							]
 						}
-					]
+					},
+					"response": []
 				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"email\": \"pepe@gmail.com\",\r\n  \"password\": \"Pepe1234\",\r\n  \"firstName\": \"pepe\",\r\n  \"lastName\": \"argento\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "GetById",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{LigaIT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7284/api/Club/Get/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7284",
+							"path": [
+								"api",
+								"Club",
+								"Get",
+								"1"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "https://localhost:7284/api/Auth/register",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "7284",
-					"path": [
-						"api",
-						"Auth",
-						"register"
-					]
+				{
+					"name": "CreateClub",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{LigaIT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"string\",\r\n  \"city\": \"string\",\r\n  \"email\": \"string\",\r\n  \"numberOfPartners\": 0,\r\n  \"phone\": \"string\",\r\n  \"address\": \"string\",\r\n  \"stadiumName\": \"string\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:7284/api/Club/Create",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7284",
+							"path": [
+								"api",
+								"Club",
+								"Create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateClub",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{LigaIT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 0,\r\n  \"name\": \"string\",\r\n  \"city\": \"string\",\r\n  \"email\": \"string\",\r\n  \"numberOfPartners\": 0,\r\n  \"phone\": \"string\",\r\n  \"address\": \"string\",\r\n  \"stadiumName\": \"string\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:7284/api/Club/Update",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7284",
+							"path": [
+								"api",
+								"Club",
+								"Update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteClub",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{LigaIT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7284/api/Club/Delete/",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7284",
+							"path": [
+								"api",
+								"Club",
+								"Delete",
+								""
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "Login",
-			"request": {
-				"auth": {
-					"type": "noauth"
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"email\": \"marcio\",\r\n  \"password\": \"string\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+			"name": "Users",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{LigaIT}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"pepe@gmail.com\",\r\n  \"password\": \"Pepe1234\",\r\n  \"firstName\": \"pepe\",\r\n  \"lastName\": \"argento\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:7284/api/Auth/register",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7284",
+							"path": [
+								"api",
+								"Auth",
+								"register"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "https://localhost:7284/api/Auth/login",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "7284",
-					"path": [
-						"api",
-						"Auth",
-						"login"
-					]
+				{
+					"name": "Login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"marcio\",\r\n  \"password\": \"string\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:7284/api/Auth/login",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7284",
+							"path": [
+								"api",
+								"Auth",
+								"login"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		}
 	]
 }

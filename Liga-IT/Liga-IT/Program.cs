@@ -1,3 +1,4 @@
+using Liga_IT.Application;
 using Liga_IT.Infrastructure;
 using Liga_IT.Middlewares;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -25,6 +26,7 @@ public class Program
         {
             c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Liga IT API", Version = "v1" });
         });
+        builder.Services.AddApplication();
         builder.Services.AddInfrastructure(builder.Configuration);
         builder.Services.AddAuthentication(options =>
         {
