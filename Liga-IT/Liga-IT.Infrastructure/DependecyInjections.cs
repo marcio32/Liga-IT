@@ -21,6 +21,13 @@ public static class DependecyInjections
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
         });
 
+        //Redis cache
+        services.AddStackExchangeRedisCache(options =>
+        {
+            options.Configuration = configuration.GetConnectionString("Redis");
+            options.InstanceName = "LigaIT";
+        });
+
         services.AddIdentity<ApplicationIdentityUser, IdentityRole>(options =>
         {
             options.Password.RequireDigit = true;
@@ -33,6 +40,7 @@ public static class DependecyInjections
         //Servicios
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IClubRepository, ClubRepository>();
+        services.AddScoped<IRedisCacheService, RedisCacheService>();
 
         return services;
     }

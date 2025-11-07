@@ -6,11 +6,19 @@ using Mapster;
 
 namespace Liga_IT.Application.Services;
 
-public class ClubService(IClubRepository clubRepository) : IClubService
+public class ClubService(IClubRepository clubRepository, IRedisCacheService cacheService) : IClubService
 {
     public async Task<IEnumerable<ClubDto>> GetAllClubsAsync()
     {
+        var cachedClubs = await cacheService.GetAsync<IEnumerable<ClubDto>>("clubs:all");
+
+        if(cachedClubs != null)
+            return cachedClubs;
+
         var clubs = await clubRepository.GetAllAsync();
+
+        await cacheService.SetAsync("clubs:all", clubs.Select(MapToDto));
+
         return clubs.Select(MapToDto);
 
     }
@@ -24,6 +32,7 @@ public class ClubService(IClubRepository clubRepository) : IClubService
 
     public async Task<ClubDto> CreateClubAsync(AddClubDto addClubDto)
     {
+        await cacheService.RemoveAsync("clubs:all");
         var club = addClubDto.Adapt<Club>();
         var createdClub = await clubRepository.AddAsync(club);
         return MapToDto(createdClub);
@@ -31,6 +40,7 @@ public class ClubService(IClubRepository clubRepository) : IClubService
 
     public async Task<bool> UpdateClubAsync(UpdateClubDto updateClubDto)
     {
+        await cacheService.RemoveAsync("clubs:all");
         var existingClub = await clubRepository.GetByIdAsync(updateClubDto.Id);
         if (existingClub == null)
             return false;
@@ -40,6 +50,7 @@ public class ClubService(IClubRepository clubRepository) : IClubService
 
     public async Task<bool> DeleteClubAsync(int id)
     {
+        await cacheService.RemoveAsync("clubs:all");
         var existingClub = await clubRepository.GetByIdAsync(id);
         if (existingClub == null)
             return false;
