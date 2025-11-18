@@ -1,0 +1,28 @@
+using FluentValidation;
+using Liga_IT.Application.DTOs;
+
+namespace Liga_IT.Application.Validators;
+
+public class UpdateRefereeValidator : AbstractValidator<UpdateRefereeDto>
+{
+    public UpdateRefereeValidator()
+    {
+        RuleFor(x => x.Id)
+            .GreaterThan(0).WithMessage("El Id del árbitro debe ser mayor a 0");
+
+        RuleFor(x => x.FirstName)
+            .NotEmpty().WithMessage("El nombre es requerido")
+            .MaximumLength(50).WithMessage("El nombre no puede exceder los 50 caracteres");
+
+        RuleFor(x => x.LastName)
+            .NotEmpty().WithMessage("El apellido es requerido")
+            .MaximumLength(50).WithMessage("El apellido no puede exceder los 50 caracteres");
+
+        RuleFor(x => x.LicenseNumber)
+            .NotEmpty().WithMessage("El número de licencia es requerido")
+            .MaximumLength(20).WithMessage("El número de licencia no puede exceder los 20 caracteres");
+
+        RuleFor(x => x.Category)
+            .IsInEnum().WithMessage("La categoría del árbitro no es válida");
+    }
+}

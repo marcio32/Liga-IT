@@ -1,0 +1,64 @@
+@model LoginViewModel
+@{
+    ViewData["Title"] = "Iniciar Sesión";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="~/css/login.css">
+    <link rel="stylesheet" href="~/css/toast.css">
+</head>
+<body>
+
+<div class="login-container">
+    <div class="login-card">
+        <div class="login-header">
+            <i class="fas fa-futbol"></i>
+            <h1>Liga IT</h1>
+            <p>Plataforma de Fútbol</p>
+        </div>
+
+        <form method="post" action="/Auth/Login" class="login-form">
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                <label for="Email">
+                    <i class="fas fa-envelope"></i> Email
+                </label>
+                <input type="email" id="Email" name="Email" class="form-control" placeholder="tu@email.com" value="@Model?.Email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="Password">
+                    <i class="fas fa-lock"></i> Contraseña
+                </label>
+                <input type="password" id="Password" name="Password" class="form-control" placeholder="Ingresa tu contraseña" required>
+            </div>
+
+            <button type="submit" class="btn-login">
+                <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+            </button>
+        </form>
+
+        <div class="login-footer">
+            <p>¿No tienes cuenta? <a href="/Auth/Register">Regístrate aquí</a></p>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/toast.js"></script>
+<script>
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <text>
+        toast.error('@Html.Raw(ViewBag.ErrorMessage)');
+        </text>
+    }
+</script>
+</body>
+</html>

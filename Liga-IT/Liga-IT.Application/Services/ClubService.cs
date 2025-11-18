@@ -1,4 +1,4 @@
-﻿using Liga_IT.Application.DTOs;
+using Liga_IT.Application.DTOs;
 using Liga_IT.Application.Interfaces;
 using Liga_IT.Domain.Entities;
 using Liga_IT.Domain.Interfaces;
@@ -6,7 +6,7 @@ using Mapster;
 
 namespace Liga_IT.Application.Services;
 
-public class ClubService(IClubRepository clubRepository, IRedisCacheService cacheService) : IClubService
+public class ClubService(IClubRepository clubRepository, IRedisCacheService cacheService, ISqsService sqsService) : IClubService
 {
     public async Task<IEnumerable<ClubDto>> GetAllClubsAsync()
     {
@@ -35,12 +35,26 @@ public class ClubService(IClubRepository clubRepository, IRedisCacheService cach
         await cacheService.RemoveAsync("clubs:all");
         var club = addClubDto.Adapt<Club>();
         var createdClub = await clubRepository.AddAsync(club);
+        await sqsService.SendMessageAsync(new
+        {
+            EventType = "ClubCreated",
+            createdClub,
+            TimeStamp = DateTime.UtcNow
+        }, QueueNames.ClubQueue);
         return MapToDto(createdClub);
     }
 
     public async Task<bool> UpdateClubAsync(UpdateClubDto updateClubDto)
     {
         await cacheService.RemoveAsync("clubs:all");
+
+        await sqsService.SendMessageAsync(new
+        {
+            EventType = "ClubUpdated",
+            updateClubDto,
+            TimeStamp = DateTime.UtcNow
+        }, QueueNames.ClubQueue);
+
         var existingClub = await clubRepository.GetByIdAsync(updateClubDto.Id);
         if (existingClub == null)
             return false;
@@ -54,6 +68,13 @@ public class ClubService(IClubRepository clubRepository, IRedisCacheService cach
         var existingClub = await clubRepository.GetByIdAsync(id);
         if (existingClub == null)
             return false;
+
+        await sqsService.SendMessageAsync(new
+        {
+            EventType = "ClubDeleted",
+            Id = id,
+            TimeStamp = DateTime.UtcNow
+        }, QueueNames.ClubQueue);
         return await clubRepository.DeleteAsync(existingClub);
     }
 

@@ -1,0 +1,40 @@
+@{
+    ViewData["Title"] = "Iniciar Sesión";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="~/css/login.css">
+
+<div class="login-container">
+    <div class="login-card">
+        <div class="login-header">
+            <i class="fas fa-futbol"></i>
+            <h1>Liga IT</h1>
+            <p>Plataforma de Fútbol</p>
+        </div>
+
+        <form method="post" action="/Auth/Login" class="login-form">
+            <div class="form-group">
+                <label for="email">
+                    <i class="fas fa-envelope"></i> Email
+                </label>
+                <input type="email" id="email" name="email" class="form-control" placeholder="tu@email.com" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">
+                    <i class="fas fa-lock"></i> Contraseña
+                </label>
+                <input type="password" id="password" name="password" class="form-control" placeholder="Ingresa tu contraseña" required>
+            </div>
+
+            <button type="submit" class="btn-login">
+                <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+            </button>
+        </form>
+
+        <div class="login-footer">
+            <p>¿No tienes cuenta? <a href="/Auth/Register">Regístrate aquí</a></p>
+        </div>
+    </div>
+</div>
