@@ -1,15 +1,64 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<link rel="stylesheet" href="~/css/dashboard.css">
+
+<div class="dashboard-container">
+    <div class="dashboard-header">
+        <i class="fas fa-chart-line"></i>
+        <h1>Dashboard Liga IT</h1>
+        <p>Bienvenido al panel de control de la liga</p>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card blue">
+            <i class="fas fa-users"></i>
+            <h3>@Model.TotalPlayers</h3>
+            <p>TOTAL JUGADORES</p>
+        </div>
+
+        <div class="stat-card green">
+            <i class="fas fa-user-check"></i>
+            <h3>@Model.ActivePlayers</h3>
+            <p>JUGADORES ACTIVOS</p>
+        </div>
+
+        <div class="stat-card orange">
+            <i class="fas fa-shield-alt"></i>
+            <h3>@Model.TotalClubs</h3>
+            <p>CLUBES REGISTRADOS</p>
+        </div>
+
+        <div class="stat-card purple">
+            <i class="fas fa-futbol"></i>
+            <h3>@Model.TotalGoals</h3>
+            <p>GOLES TOTALES</p>
+        </div>
+    </div>
+
+    <div class="quick-actions">
+        <div class="action-card">
+            <div class="action-card-header">
+                <i class="fas fa-user-plus"></i>
+                <h3>Gestionar Jugadores</h3>
+            </div>
+            <p>Administra los jugadores de la liga. Crea, edita o elimina registros de jugadores.</p>
+            <a asp-controller="Player" asp-action="Index" class="action-btn">
+                <i class="fas fa-arrow-right"></i> Ver Jugadores
+            </a>
+        </div>
+
+        <div class="action-card">
+            <div class="action-card-header">
+                <i class="fas fa-plus-circle"></i>
+                <h3>Nuevo Jugador</h3>
+            </div>
+            <p>Registra un nuevo jugador en la liga con toda su información y estadísticas.</p>
+            <a asp-controller="Player" asp-action="Create" class="action-btn">
+                <i class="fas fa-arrow-right"></i> Crear Jugador
+            </a>
+        </div>
+    </div>
 </div>
-
-
-@section Scripts {
-    <script>
-        console.log("Scripts solo para esta vista");
-    </script>
-}

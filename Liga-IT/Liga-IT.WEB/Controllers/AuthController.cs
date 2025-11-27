@@ -60,4 +60,12 @@ public class AuthController(IHttpClientFactory httpClientFactory, IConfiguration
         return RedirectToAction("Index");
     }
 
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult Logout()
+    {
+        HttpContext.Session.Clear();
+        return RedirectToAction("Index");
+    }
+
 }
