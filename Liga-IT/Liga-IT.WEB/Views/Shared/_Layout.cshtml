@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
@@ -28,6 +28,15 @@
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" asp-area="" asp-controller="Player" asp-action="Index">Jugadores</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" asp-area="" asp-controller="Referee" asp-action="Index"><i class="fa-solid fa-user"></i> Árbitros</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" asp-area="" asp-controller="Club" asp-action="Index">Clubes</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" asp-area="" asp-controller="Match" asp-action="Index">Partidos</a>
 						</li>
 					</ul>
 					<form asp-controller="Auth" asp-action="Logout" method="post" class="d-flex">

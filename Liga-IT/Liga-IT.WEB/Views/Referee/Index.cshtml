@@ -1,0 +1,114 @@
+@model List<RefereeViewModel>
+@{
+    ViewData["Title"] = "Gestión de Árbitros";
+}
+
+<link rel="stylesheet" href="~/css/player.css">
+
+@Html.AntiForgeryToken()
+
+<div class="player-container">
+    <div class="player-header">
+        <div class="header-content">
+            <i class="fa-solid fa-user"></i>
+            <div>
+                <h1>Gestión de Árbitros</h1>
+                <p>Administra los árbitros de la liga</p>
+            </div>
+        </div>
+        <a asp-action="Create" class="btn-add">
+            <i class="fas fa-plus"></i> Nuevo Árbitro
+        </a>
+    </div>
+
+    @if (Model.Any())
+    {
+        <div class="players-grid">
+            @foreach (var referee in Model)
+            {
+                <div class="player-card">
+                    <div class="player-card-header">
+                        <div class="jersey-number"><i class="fas fa-id-card"></i></div>
+                        <span class="badge @(referee.IsActive ? "badge-active" : "badge-inactive")">
+                            @(referee.IsActive ? "Activo" : "Inactivo")
+                        </span>
+                    </div>
+                    <div class="player-card-body">
+                        <h3>@referee.FirstName @referee.LastName</h3>
+                        <div class="player-info">
+                            <span><i class="fas fa-certificate"></i> Licencia: @referee.LicenseNumber</span>
+                            <span><i class="fas fa-star"></i> Categoría: @((referee.Category == 0 ? "Nacional" : referee.Category == 1 ? "Regional" : "Internacional"))</span>
+                        </div>
+                    </div>
+                    <div class="player-card-footer">
+                        <a asp-action="Edit" asp-route-id="@referee.Id" class="btn-edit">
+                            <i class="fas fa-edit"></i> Editar
+                        </a>
+                        <button type="button" class="btn-delete" onclick="confirmDelete(@referee.Id, '@referee.FirstName @referee.LastName')">
+                            <i class="fas fa-trash"></i> Eliminar
+                        </button>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="empty-state">
+            <i class="fas fa-user-slash"></i>
+            <h3>No hay árbitros registrados</h3>
+            <p>Comienza agregando tu primer árbitro</p>
+            <a asp-action="Create" class="btn-add">
+                <i class="fas fa-plus"></i> Crear Árbitro
+            </a>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <text>
+            toast.success('@TempData["SuccessMessage"]');
+            </text>
+        }
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <text>
+            toast.error('@TempData["ErrorMessage"]');
+            </text>
+        }
+
+        function confirmDelete(refereeId, refereeName) {
+            Swal.fire({
+                title: '¿Eliminar árbitro?',
+                html: `¿Estás seguro de eliminar a <strong>${refereeName}</strong>?<br>Esta acción no se puede deshacer.`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc3545',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = '/Referee/Delete/' + refereeId;
+                    
+                    const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+                    const tokenInput = document.createElement('input');
+                    tokenInput.type = 'hidden';
+                    tokenInput.name = '__RequestVerificationToken';
+                    tokenInput.value = token;
+                    
+                    form.appendChild(tokenInput);
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+            });
+        }
+    </script>
+}

@@ -1,0 +1,75 @@
+@model RegisterViewModel
+@{
+    ViewData["Title"] = "Registrarse";
+    Layout = null;
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="~/css/login.css">
+
+<div class="login-container">
+    <div class="login-card">
+        <div class="login-header">
+            <i class="fas fa-user-plus"></i>
+            <h1>Crear Cuenta</h1>
+            <p>Únete a Liga IT</p>
+        </div>
+
+        <form method="post" action="/Auth/Register" class="login-form">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label for="firstName">
+                    <i class="fas fa-user"></i> Nombre
+                </label>
+                <input asp-for="FirstName" id="firstName" class="form-control" placeholder="Tu nombre" required>
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="lastName">
+                    <i class="fas fa-user"></i> Apellido
+                </label>
+                <input asp-for="LastName" id="lastName" class="form-control" placeholder="Tu apellido" required>
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="email">
+                    <i class="fas fa-envelope"></i> Email
+                </label>
+                <input asp-for="Email" type="email" id="email" class="form-control" placeholder="tu@email.com" required>
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="password">
+                    <i class="fas fa-lock"></i> Contraseña
+                </label>
+                <input asp-for="Password" type="password" id="password" class="form-control" placeholder="Mínimo 6 caracteres" required>
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">
+                    <i class="fas fa-lock"></i> Confirmar Contraseña
+                </label>
+                <input asp-for="ConfirmPassword" type="password" id="confirmPassword" class="form-control" placeholder="Repite tu contraseña" required>
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn-login">
+                <i class="fas fa-user-check"></i> Registrarse
+            </button>
+        </form>
+
+        <div class="login-footer">
+            <p>¿Ya tienes cuenta? <a href="/Auth/Index">Inicia sesión aquí</a></p>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

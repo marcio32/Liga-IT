@@ -1,0 +1,121 @@
+@model List<MatchFormViewModel>
+@{
+    ViewData["Title"] = "Gestión de Partidos";
+}
+
+<link rel="stylesheet" href="~/css/player.css">
+
+@Html.AntiForgeryToken()
+
+<div class="player-container">
+    <div class="player-header">
+        <div class="header-content">
+            <i class="fas fa-futbol"></i>
+            <div>
+                <h1>Gestión de Partidos</h1>
+                <p>Administra los partidos de la liga</p>
+            </div>
+        </div>
+        <a asp-action="Create" class="btn-add">
+            <i class="fas fa-plus"></i> Nuevo Partido
+        </a>
+    </div>
+
+    @if (Model.Any())
+    {
+        <div class="players-grid">
+            @foreach (var match in Model)
+            {
+                <div class="player-card">
+                    <div class="player-card-header">
+                        <div class="jersey-number"><i class="fas fa-futbol"></i></div>
+                        <span class="badge @(match.Status == 2 ? "badge-active" : "badge-inactive")">
+                            @(match.Status == 0 ? "Programado" : match.Status == 1 ? "En Progreso" : match.Status == 2 ? "Completado" : match.Status == 3 ? "Postergado" : "Cancelado")
+                        </span>
+                    </div>
+                    <div class="player-card-body">
+                        <h3>@match.HomeClubName vs @match.AwayClubName</h3>
+                        <div class="player-info">
+                            <span><i class="fas fa-calendar"></i> @match.MatchDate.ToString("dd/MM/yyyy HH:mm")</span>
+                            @if (match.HomeScore.HasValue && match.AwayScore.HasValue)
+                            {
+                                <span><i class="fas fa-futbol"></i> Resultado: @match.HomeScore - @match.AwayScore</span>
+                            }
+                            @if (!string.IsNullOrEmpty(match.RefereeName))
+                            {
+                                <span><i class="fas fa-whistle"></i> Árbitro: @match.RefereeName</span>
+                            }
+                        </div>
+                    </div>
+                    <div class="player-card-footer">
+                        <a asp-action="Edit" asp-route-id="@match.Id" class="btn-edit">
+                            <i class="fas fa-edit"></i> Editar
+                        </a>
+                        <button type="button" class="btn-delete" onclick="confirmDelete(@match.Id, 'Ronda @match.Round')">
+                            <i class="fas fa-trash"></i> Eliminar
+                        </button>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="empty-state">
+            <i class="fas fa-user-slash"></i>
+            <h3>No hay partidos registrados</h3>
+            <p>Comienza agregando tu primer partido</p>
+            <a asp-action="Create" class="btn-add">
+                <i class="fas fa-plus"></i> Crear Partido
+            </a>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <text>
+            toast.success('@TempData["SuccessMessage"]');
+            </text>
+        }
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <text>
+            toast.error('@TempData["ErrorMessage"]');
+            </text>
+        }
+
+        function confirmDelete(matchId, matchName) {
+            Swal.fire({
+                title: '¿Eliminar partido?',
+                html: `¿Estás seguro de eliminar el partido <strong>${matchName}</strong>?<br>Esta acción no se puede deshacer.`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc3545',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = '/Match/Delete/' + matchId;
+                    
+                    const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+                    const tokenInput = document.createElement('input');
+                    tokenInput.type = 'hidden';
+                    tokenInput.name = '__RequestVerificationToken';
+                    tokenInput.value = token;
+                    
+                    form.appendChild(tokenInput);
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+            });
+        }
+    </script>
+}

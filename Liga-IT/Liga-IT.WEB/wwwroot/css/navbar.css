@@ -71,6 +71,14 @@
     content: "\f0c0";
 }
 
+.navbar-nav .nav-item:nth-child(4) .nav-link::before {
+    content: "\f1ad";
+}
+
+.navbar-nav .nav-item:nth-child(5) .nav-link::before {
+    content: "\f1e3";
+}
+
 .btn-logout {
     background: white;
     color: #9333ea;

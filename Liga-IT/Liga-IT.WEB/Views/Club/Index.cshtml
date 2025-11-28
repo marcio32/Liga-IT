@@ -1,0 +1,114 @@
+@model List<ClubFormViewModel>
+@{
+    ViewData["Title"] = "Gestión de Clubes";
+}
+
+<link rel="stylesheet" href="~/css/player.css">
+
+@Html.AntiForgeryToken()
+
+<div class="player-container">
+    <div class="player-header">
+        <div class="header-content">
+            <i class="fas fa-shield-alt"></i>
+            <div>
+                <h1>Gestión de Clubes</h1>
+                <p>Administra los clubes de la liga</p>
+            </div>
+        </div>
+        <a asp-action="Create" class="btn-add">
+            <i class="fas fa-plus"></i> Nuevo Club
+        </a>
+    </div>
+
+    @if (Model.Any())
+    {
+        <div class="players-grid">
+            @foreach (var club in Model)
+            {
+                <div class="player-card">
+                    <div class="player-card-header">
+                        <div class="jersey-number"><i class="fas fa-building"></i></div>
+                    </div>
+                    <div class="player-card-body">
+                        <h3>@club.Name</h3>
+                        <div class="player-info">
+                            <span><i class="fas fa-map-marker-alt"></i> @club.City</span>
+                            <span><i class="fas fa-stadium"></i> @club.StadiumName</span>
+                            <span><i class="fas fa-users"></i> @club.NumberOfPartners socios</span>
+                            <span><i class="fas fa-envelope"></i> @club.Email</span>
+                            <span><i class="fas fa-phone"></i> @club.Phone</span>
+                        </div>
+                    </div>
+                    <div class="player-card-footer">
+                        <a asp-action="Edit" asp-route-id="@club.Id" class="btn-edit">
+                            <i class="fas fa-edit"></i> Editar
+                        </a>
+                        <button type="button" class="btn-delete" onclick="confirmDelete(@club.Id, '@club.Name')">
+                            <i class="fas fa-trash"></i> Eliminar
+                        </button>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="empty-state">
+            <i class="fas fa-user-slash"></i>
+            <h3>No hay clubes registrados</h3>
+            <p>Comienza agregando tu primer club</p>
+            <a asp-action="Create" class="btn-add">
+                <i class="fas fa-plus"></i> Crear Club
+            </a>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <text>
+            toast.success('@TempData["SuccessMessage"]');
+            </text>
+        }
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <text>
+            toast.error('@TempData["ErrorMessage"]');
+            </text>
+        }
+
+        function confirmDelete(clubId, clubName) {
+            Swal.fire({
+                title: '¿Eliminar club?',
+                html: `¿Estás seguro de eliminar a <strong>${clubName}</strong>?<br>Esta acción no se puede deshacer.`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc3545',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = '/Club/Delete/' + clubId;
+                    
+                    const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+                    const tokenInput = document.createElement('input');
+                    tokenInput.type = 'hidden';
+                    tokenInput.name = '__RequestVerificationToken';
+                    tokenInput.value = token;
+                    
+                    form.appendChild(tokenInput);
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+            });
+        }
+    </script>
+}

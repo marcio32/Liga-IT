@@ -68,4 +68,49 @@ public class AuthController(IHttpClientFactory httpClientFactory, IConfiguration
         return RedirectToAction("Index");
     }
 
+    public IActionResult Register()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Register(RegisterViewModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
+
+        try
+        {
+            var client = httpClientFactory.CreateClient();
+            var registerData = new
+            {
+                email = model.Email,
+                password = model.Password,
+                firstName = model.FirstName,
+                lastName = model.LastName
+            };
+            var json = JsonSerializer.Serialize(registerData);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await client.PostAsync($"{configuration["ApiSettings:BaseUrl"]}/api/auth/register", content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                HttpContext.Session.SetString("LoginError", "Usuario registrado exitosamente. Inicia sesión.");
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.ErrorMessage = "Error al registrar el usuario";
+            return View(model);
+        }
+        catch
+        {
+            ViewBag.ErrorMessage = "Error al conectar con el servidor";
+            return View(model);
+        }
+    }
+
 }

@@ -1,0 +1,97 @@
+@model ClubFormViewModel
+@{
+    ViewData["Title"] = "Editar Club";
+}
+
+<link rel="stylesheet" href="~/css/player.css">
+
+<div class="form-container">
+    <div class="form-card">
+        <div class="form-header">
+            <i class="fas fa-user-edit"></i>
+            <h1>Editar Club</h1>
+            <p>Actualiza la información del club</p>
+        </div>
+
+        <form asp-action="Edit" method="post" class="player-form">
+            @Html.AntiForgeryToken()
+            <input asp-for="Id" type="hidden" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label asp-for="Name">
+                        <i class="fas fa-shield-alt"></i> Nombre del Club
+                    </label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="City">
+                        <i class="fas fa-map-marker-alt"></i> Ciudad
+                    </label>
+                    <input asp-for="City" class="form-control" />
+                    <span asp-validation-for="City" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label asp-for="Email">
+                        <i class="fas fa-envelope"></i> Email
+                    </label>
+                    <input asp-for="Email" type="email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Phone">
+                        <i class="fas fa-phone"></i> Teléfono
+                    </label>
+                    <input asp-for="Phone" type="tel" class="form-control" />
+                    <span asp-validation-for="Phone" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label asp-for="StadiumName">
+                        <i class="fas fa-stadium"></i> Nombre del Estadio
+                    </label>
+                    <input asp-for="StadiumName" class="form-control" />
+                    <span asp-validation-for="StadiumName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="NumberOfPartners">
+                        <i class="fas fa-users"></i> Número de Socios
+                    </label>
+                    <input asp-for="NumberOfPartners" type="number" class="form-control" />
+                    <span asp-validation-for="NumberOfPartners" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Address">
+                    <i class="fas fa-map"></i> Dirección
+                </label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-submit">
+                    <i class="fas fa-save"></i> Actualizar Club
+                </button>
+                <a asp-action="Index" class="btn-cancel">
+                    <i class="fas fa-times"></i> Cancelar
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

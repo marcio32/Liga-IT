@@ -1,0 +1,139 @@
+@model MatchFormViewModel
+@{
+    ViewData["Title"] = "Editar Partido";
+}
+
+<link rel="stylesheet" href="~/css/player.css">
+
+<div class="form-container">
+    <div class="form-card">
+        <div class="form-header">
+            <i class="fas fa-user-edit"></i>
+            <h1>Editar Partido</h1>
+            <p>Actualiza la información del partido</p>
+        </div>
+
+        <form asp-action="Edit" method="post" class="player-form">
+            @Html.AntiForgeryToken()
+            <input asp-for="Id" type="hidden" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label asp-for="Round">
+                        <i class="fas fa-hashtag"></i> Ronda
+                    </label>
+                    <input asp-for="Round" type="number" class="form-control" />
+                    <span asp-validation-for="Round" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="MatchDate">
+                        <i class="fas fa-calendar"></i> Fecha y Hora
+                    </label>
+                    <input asp-for="MatchDate" type="datetime-local" class="form-control" />
+                    <span asp-validation-for="MatchDate" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label asp-for="HomeClubId">
+                        <i class="fas fa-shield-alt"></i> Club Local
+                    </label>
+                    <select asp-for="HomeClubId" class="form-control">
+                        <option value="">Seleccionar club</option>
+                        @foreach (var club in (List<ClubViewModel>)ViewBag.Clubs)
+                        {
+                            <option value="@club.Id">@club.Name</option>
+                        }
+                    </select>
+                    <span asp-validation-for="HomeClubId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="AwayClubId">
+                        <i class="fas fa-shield-alt"></i> Club Visitante
+                    </label>
+                    <select asp-for="AwayClubId" class="form-control">
+                        <option value="">Seleccionar club</option>
+                        @foreach (var club in (List<ClubViewModel>)ViewBag.Clubs)
+                        {
+                            <option value="@club.Id">@club.Name</option>
+                        }
+                    </select>
+                    <span asp-validation-for="AwayClubId" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label asp-for="Status">
+                        <i class="fas fa-info-circle"></i> Estado
+                    </label>
+                    <select asp-for="Status" class="form-control">
+                        <option value="">Seleccionar estado</option>
+                        <option value="0">Programado</option>
+                        <option value="1">En Progreso</option>
+                        <option value="2">Completado</option>
+                        <option value="3">Postergado</option>
+                        <option value="4">Cancelado</option>
+                    </select>
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="RefereeId">
+                        <i class="fas fa-whistle"></i> Árbitro
+                    </label>
+                    <select asp-for="RefereeId" class="form-control">
+                        <option value="">Seleccionar árbitro</option>
+                        @foreach (var referee in (List<RefereeViewModel>)ViewBag.Referees)
+                        {
+                            <option value="@referee.Id">@referee.FirstName @referee.LastName</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label asp-for="HomeScore">
+                        <i class="fas fa-futbol"></i> Goles Local
+                    </label>
+                    <input asp-for="HomeScore" type="number" class="form-control" />
+                    <span asp-validation-for="HomeScore" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="AwayScore">
+                        <i class="fas fa-futbol"></i> Goles Visitante
+                    </label>
+                    <input asp-for="AwayScore" type="number" class="form-control" />
+                    <span asp-validation-for="AwayScore" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Notes">
+                    <i class="fas fa-sticky-note"></i> Notas
+                </label>
+                <textarea asp-for="Notes" class="form-control" rows="3"></textarea>
+                <span asp-validation-for="Notes" class="text-danger"></span>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-submit">
+                    <i class="fas fa-save"></i> Actualizar Partido
+                </button>
+                <a asp-action="Index" class="btn-cancel">
+                    <i class="fas fa-times"></i> Cancelar
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
