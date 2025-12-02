@@ -54,5 +54,10 @@ namespace Liga_IT.WEB.Controllers
 
             return View(dashboard);
         }
+
+        public IActionResult Chat()
+        {
+            return View();
+        }
     }
 }

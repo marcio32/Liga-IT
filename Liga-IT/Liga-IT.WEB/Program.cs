@@ -1,3 +1,5 @@
+using Liga_IT.WEB.Hubs;
+
 namespace Liga_IT.WEB
 {
     public class Program
@@ -10,6 +12,7 @@ namespace Liga_IT.WEB
             builder.Services.AddControllersWithViews();
             builder.Services.AddHttpClient();
             builder.Services.AddSession();
+            builder.Services.AddSignalR();
 
             var app = builder.Build();
 
@@ -31,6 +34,8 @@ namespace Liga_IT.WEB
                 name: "default",
                 pattern: "{controller=Auth}/{action=Index}/{id?}")
                 .WithStaticAssets();
+
+            app.MapHub<ChatHub>("/chatHub");
 
             app.Run();
         }
