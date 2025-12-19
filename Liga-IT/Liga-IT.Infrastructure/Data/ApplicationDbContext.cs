@@ -15,6 +15,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationIdentityUser>
     public DbSet<Player> Player { get; set; }
     public DbSet<Match> Match { get; set; }
     public DbSet<Referee> Referee { get; set; }
+    public DbSet<DocumentChunk> DocumentChunks { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -74,6 +75,13 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationIdentityUser>
             entity.Property(e => e.IsActive).IsRequired();
             entity.Property(e => e.Category).IsRequired();
             entity.Property(e => e.CreateAt).IsRequired();
+        });
+
+        modelBuilder.Entity<DocumentChunk>(entity =>
+        {
+            entity.Property(e => e.DocumentName).HasMaxLength(200);
+            entity.Property(e => e.ChunkText).HasColumnType("nvarchar(MAX)");
+            entity.Property(e => e.Embedding).HasColumnType("varbinary(MAX)");
         });
     }
 }

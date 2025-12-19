@@ -1,4 +1,5 @@
 <Solution>
+  <Project Path="Liga-IT.AI.API/Liga-IT.AI.API.csproj" Id="00652d21-1c07-4bf3-b8df-1d11231994f0" />
   <Project Path="Liga-IT.Application/Liga-IT.Application.csproj" />
   <Project Path="Liga-IT.Domain/Liga-IT.Domain.csproj" />
   <Project Path="Liga-IT.Infrastructure/Liga-IT.Infrastructure.csproj" />

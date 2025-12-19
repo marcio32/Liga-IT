@@ -10,7 +10,12 @@ namespace Liga_IT.WEB
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-            builder.Services.AddHttpClient();
+            builder.Services.AddHttpClient("ignoreSsl")
+    .ConfigurePrimaryHttpMessageHandler(() =>
+        new HttpClientHandler
+        {
+            ServerCertificateCustomValidationCallback = (m, c, ch, e) => true
+        });
             builder.Services.AddSession();
             builder.Services.AddSignalR();
 

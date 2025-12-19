@@ -1,4 +1,5 @@
 using Liga_IT.WEB.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
 using System.Text.Json;
@@ -54,7 +55,7 @@ public class AuthController(IHttpClientFactory httpClientFactory, IConfiguration
         }
         catch (Exception ex)
         {
-            HttpContext.Session.SetString("LoginError", "Error al conectar con el servidor");
+            HttpContext.Session.SetString("LoginError", ex.InnerException.InnerException.ToString());
         }
 
         return RedirectToAction("Index");

@@ -1,0 +1,6 @@
+@Liga_IT.AI.API_HostAddress = http://localhost:5213
+
+GET {{Liga_IT.AI.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

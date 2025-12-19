@@ -11,6 +11,7 @@
 	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 	<link rel="stylesheet" href="~/css/navbar.css" asp-append-version="true" />
 	<link rel="stylesheet" href="~/css/toast.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/css/chat-widget.css" asp-append-version="true" />
 	<link rel="stylesheet" href="~/Liga_IT.WEB.styles.css" asp-append-version="true" />
 </head>
 <body>
@@ -64,10 +65,14 @@
 			&copy; 2025 - Liga_IT.WEB
 		</div>
 	</footer>
+
+	@await Html.PartialAsync("_ChatWidget")
 	<script src="~/lib/jquery/dist/jquery.min.js"></script>
 	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="~/js/toast.js" asp-append-version="true"></script>
+	<script src="~/js/chat-widget.js" asp-append-version="true"></script>
 	<script src="~/js/site.js" asp-append-version="true"></script>
+	<script src="~/js/Chat.js"></script>
 	@await RenderSectionAsync("Scripts", required: false)
 
 </body>

@@ -1,5 +1,6 @@
 ﻿using Amazon.SQS;
 using Liga_IT.Application.Interfaces;
+using Liga_IT.Application.Services.AI;
 using Liga_IT.Domain.Interfaces;
 using Liga_IT.Infrastructure.Data;
 using Liga_IT.Infrastructure.Identity;
@@ -58,6 +59,7 @@ public static class DependecyInjections
         services.AddScoped<IPlayerRepository, PlayerRepository>();
         services.AddScoped<IRedisCacheService, RedisCacheService>();
         services.AddScoped<ISqsService, SqsService>();
+        services.AddScoped<Liga_IT.Application.Services.AI.IVectorService, Liga_IT.Infrastructure.Services.VectorService>();
 
         return services;
     }
